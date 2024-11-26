@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_hub/movie_list.dart';
 
 void main() => runApp(const Movies());
 
@@ -9,7 +10,7 @@ class Movies extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Movies',
-      theme: ThemeData(primarySwatch: Colors.deepOrange, useMaterial3: true),
+      theme: ThemeData(primarySwatch: Colors.deepOrange),
       home: const Home(),
     );
   }
@@ -20,6 +21,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const MovieList();
   }
 }

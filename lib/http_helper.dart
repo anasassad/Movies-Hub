@@ -8,7 +8,7 @@ class HttpHelper {
   final String urlUpcoming = '/upcoming?';
   final String urlLanguage = '&language=en-US';
 
-  Future<String?> getUpcoming() async {
+  Future<String> getUpcoming() async {
     final String upcoming = '$urlBase$urlUpcoming$urlKey$urlLanguage';
     final Uri uri = Uri.parse(upcoming);
 
@@ -18,7 +18,7 @@ class HttpHelper {
       String responseBody = response.body;
       return responseBody;
     } else {
-      return null;
+      return '';
     }
   }
 }
