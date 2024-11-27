@@ -15,7 +15,6 @@ class _MovieListState extends State<MovieList> {
   @override
   void initState() {
     httpHelper = HttpHelper();
-    result = '';
     super.initState();
   }
 
