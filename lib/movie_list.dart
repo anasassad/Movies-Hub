@@ -10,24 +10,29 @@ class MovieList extends StatefulWidget {
 
 class _MovieListState extends State<MovieList> {
   late HttpHelper httpHelper;
-  late String result;
+  late int moviesCount;
+  late List movies;
+
+  Future initialize() async {
+    movies = List.empty();
+    movies = await httpHelper.getUpcoming();
+
+    setState(() {
+      moviesCount = movies.length;
+      movies = movies;
+    });
+  }
 
   @override
   void initState() {
     httpHelper = HttpHelper();
+    moviesCount = 0;
+    initialize();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    httpHelper.getUpcoming().then(
-      (value) {
-        setState(() {
-          result = value;
-        });
-      },
-    );
-
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -36,6 +41,18 @@ class _MovieListState extends State<MovieList> {
           ),
           backgroundColor: Theme.of(context).primaryColor,
         ),
-        body: Text(result));
+        body: ListView.builder(
+            itemCount: moviesCount,
+            itemBuilder: (BuildContext context, int position) {
+              return Card(
+                color: Colors.white,
+                elevation: 1.0,
+                child: ListTile(
+                  title: Text(movies[position].title),
+                  subtitle: Text(
+                      'Released:  ${movies[position].releaseDate} - Vote: ${movies[position].voteAverage.toString()}'),
+                ),
+              );
+            }));
   }
 }
