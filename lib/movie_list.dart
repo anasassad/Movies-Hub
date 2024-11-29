@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_hub/http_helper.dart';
+import 'package:movies_hub/movie_detail.dart';
 
 class MovieList extends StatefulWidget {
   const MovieList({super.key});
@@ -65,6 +66,12 @@ class _MovieListState extends State<MovieList> {
                   title: Text(movies[position].title),
                   subtitle: Text(
                       'Released:  ${movies[position].releaseDate} - Vote: ${movies[position].voteAverage.toString()}'),
+                  onTap: () {
+                    MaterialPageRoute route = MaterialPageRoute(
+                        builder: (_) => MovieDetail(movies[position]));
+
+                    Navigator.push(context, route);
+                  },
                 ),
               );
             }));
