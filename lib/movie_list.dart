@@ -18,9 +18,24 @@ class _MovieListState extends State<MovieList> {
   late int moviesCount;
   late List movies;
 
+  Icon visibleIcon = const Icon(Icons.search);
+  Widget searchBar = const Text(
+    'Movies',
+    style: TextStyle(color: Colors.white),
+  );
+
   Future initialize() async {
     movies = List.empty();
     movies = await httpHelper.getUpcoming();
+
+    setState(() {
+      moviesCount = movies.length;
+      movies = movies;
+    });
+  }
+
+  Future searchMovie(text) async {
+    movies = await httpHelper.findMovies(text);
 
     setState(() {
       moviesCount = movies.length;
@@ -42,11 +57,36 @@ class _MovieListState extends State<MovieList> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Movies',
-            style: TextStyle(color: Colors.white),
-          ),
+          title: searchBar,
           backgroundColor: Theme.of(context).primaryColor,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    if (visibleIcon.icon == Icons.search) {
+                      visibleIcon = const Icon(Icons.cancel);
+                      searchBar = TextField(
+                        textInputAction: TextInputAction.search,
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 20.0),
+                        onSubmitted: (text) {
+                          searchMovie(text);
+                        },
+                      );
+                    } else {
+                      setState(() {
+                        visibleIcon = const Icon(Icons.search);
+                        searchBar = const Text(
+                          'Movies',
+                          style: TextStyle(color: Colors.white),
+                        );
+                        ;
+                      });
+                    }
+                  });
+                },
+                icon: visibleIcon)
+          ],
         ),
         body: ListView.builder(
             itemCount: moviesCount,
